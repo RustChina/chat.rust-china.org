@@ -1,0 +1,40 @@
+mongo:
+  image: mongo:3.2
+  volumes:
+    - ./data/runtime/db:/data/db
+    - ./data/dump:/dump
+  command: mongod --smallfiles --oplogSize 128
+
+rocketchat:
+  image: rocketchat/rocket.chat:0.20.0
+  volumes:
+    - ./uploads:/app/uploads
+  environment:
+    - PORT=3000
+    # - ROOT_URL=https://chat.rust-china.org
+    - ROOT_URL=http://chat.rust-china.local
+    - MONGO_URL=mongodb://mongo:27017/rocketchat
+  links:
+    - mongo:mongo
+  ports:
+    - 5002:3000
+
+hubot:
+  image: rocketchat/hubot-rocketchat
+  environment:
+    - ROCKETCHAT_URL=rocketchat:3000
+    - ROCKETCHAT_ROOM=''
+    - LISTEN_ON_ALL_PUBLIC=true
+    - RESPOND_TO_DM=true
+    - ROCKETCHAT_USER=hubot
+    - ROCKETCHAT_PASSWORD=YOUR_HUBOT_PASSWORD # hubot account password
+    - BOT_NAME=hubot
+    - HUBOT_GITHUB_EVENT_NOTIFIER_TYPES=commit_comment,create,delete,deployment,deployment_status,fork,gollum,issue_comment,issues,member,membership,page_build,pull_request_review_comment,pull_request,push,repository,release,status,ping,team_add,watch
+    - EXTERNAL_SCRIPTS=hubot-help,hubot-seen,hubot-links,hubot-diagnostics,hubot-github-repo-event-notifier
+  links:
+    - rocketchat:rocketchat
+  volumes:
+    - ./scripts:/home/hubot/scripts
+# this is used to expose the hubot port for notifications on the host on port 3001, e.g. for hubot-jenkins-notifier
+  ports:
+    - 5003:8080
