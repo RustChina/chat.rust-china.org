@@ -6,7 +6,7 @@ mongo:
   command: mongod --smallfiles --oplogSize 128
 
 rocketchat:
-  image: rocketchat/rocket.chat:0.20.0
+  image: rocketchat/rocket.chat:0.30.0
   volumes:
     - ./uploads:/app/uploads
   environment:
