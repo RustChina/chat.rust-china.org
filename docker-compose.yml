@@ -23,7 +23,6 @@ hubot:
   image: rocketchat/hubot-rocketchat
   environment:
     - ROCKETCHAT_URL=rocketchat:3000
-    - ROCKETCHAT_ROOM=''
     - LISTEN_ON_ALL_PUBLIC=true
     - RESPOND_TO_DM=true
     - ROCKETCHAT_USER=hubot
