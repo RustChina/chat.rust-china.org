@@ -74,6 +74,7 @@ module.exports = (robot) ->
             separate_output: true
             version: version
             optimize: "0"
+            backtrace: "0"
         data = JSON.stringify(params)
         robot.http("https://play.rust-lang.org/evaluate.json").
             header("Content-Type", "application/json").
