@@ -6,7 +6,7 @@ mongo:
   command: mongod --smallfiles --oplogSize 128
 
 rocketchat:
-  image: rocketchat/rocket.chat:0.30.0
+  image: rocketchat/rocket.chat:0.37.1
   volumes:
     - ./uploads:/app/uploads
   environment:
@@ -20,7 +20,7 @@ rocketchat:
     - 5002:3000
 
 hubot:
-  image: rocketchat/hubot-rocketchat
+  image: rocketchat/hubot-rocketchat:v1.0.3
   environment:
     - ROCKETCHAT_URL=rocketchat:3000
     - LISTEN_ON_ALL_PUBLIC=true
