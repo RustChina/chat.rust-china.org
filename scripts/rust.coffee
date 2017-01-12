@@ -53,11 +53,11 @@ module.exports = (robot) ->
             res.send "@#{user} You can learn Rust by example: http://rustbyexample.com"
         else
             res.send "Sorry sir, but I couldn't understand your command."
-                        
+
     robot.respond /rustc (stable|beta|nightly)((.|\s)+)/, (res) ->
         version = "stable"
         if res.match[1]
-            version = res.match[1]                        
+            version = res.match[1]
         code_block = res.match[2]
         code = trim_block code_block
         if version == "nightly"
@@ -67,7 +67,7 @@ module.exports = (robot) ->
                 code = trim_block code.replace(feature, "")
                 template = feature + "\n" + template
 
-        params = 
+        params =
             code: template.replace("snippet", code)
             test: false
             color: false
@@ -82,9 +82,9 @@ module.exports = (robot) ->
                 result = JSON.parse(body)
                 if err
                     res.send err
-                else if result["rustc"] != "" # failed
+                else if result["program"] == undefined # failed
                     res.send (wrap_in_block result["rustc"])
-                else if result["program"] != "" # success
+                else if result["program"] != undefined # success
                     res.send (wrap_in_block result["program"])
                 else
                     res.send "Something strange happened, @tennix please fix it"
